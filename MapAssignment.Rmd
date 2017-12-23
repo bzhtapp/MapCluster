@@ -1,0 +1,32 @@
+---
+title: "Map clusters"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(leaflet)
+```
+
+Map cluster of 500 random points around Jeff Leek's office. <br>
+Date: 12/23/2017
+
+```{r echo=FALSE}
+
+set.seed(1)
+
+cnt <- 500
+lat <- 39.2980803
+lng <- -76.5898801
+rng <- 0.01
+
+df <- data.frame(lat=runif(cnt, min=lat - rng,max=lat + rng),
+                 lng=runif(cnt, min=lng - rng,max=lng + rng))
+
+myMap <- df %>% leaflet() %>% addTiles() %>% 
+  addMarkers(popup=as.character(c(1:cnt)), 
+             clusterOptions=markerClusterOptions())
+
+addMarkers(myMap, lat=39.2980803, lng=-76.5898801,
+             popup="Jeff Leek's Office")
+```
